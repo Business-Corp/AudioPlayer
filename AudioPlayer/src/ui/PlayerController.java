@@ -9,9 +9,11 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.ListView;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.media.Media;
 import player.APlayer;
+import player.AudioFile;
 import player.AudioPlayer;
 
 public class PlayerController implements Initializable{
@@ -31,6 +33,9 @@ public class PlayerController implements Initializable{
 	@FXML
 	ProgressBar fortschritt = new ProgressBar();
 	
+	@FXML
+	ListView<AudioFile> playlist = new ListView<>();
+	
 
 	private APlayer newAP = new APlayer();
 	
@@ -39,13 +44,14 @@ public class PlayerController implements Initializable{
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		
+		playlist.setItems(newAP.getObservableList());
 	
 		String pfad = "01 - Darwin feat Fraz - We-re Getting Faster.mp3";
 
 		
 		File file = new File(pfad);
 		newAP.addToPlaylist(file);
-		
+		newAP.addToPlaylist(new File("01 Tokyo Rush.mp3"));
 		
 		
 		play.setOnAction((ActionEvent e) -> {
@@ -61,7 +67,7 @@ public class PlayerController implements Initializable{
 			newAP.stop();
 		});
 		nextButton.setOnAction((ActionEvent e)->{
-
+			newAP.next();
 		});
 		
 //		ap.setProgressBar(fortschritt);
