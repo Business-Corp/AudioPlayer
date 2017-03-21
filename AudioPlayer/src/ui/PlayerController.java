@@ -9,8 +9,11 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.ListView;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.media.Media;
+import player.APlayer;
+import player.AudioFile;
 import player.AudioPlayer;
 
 public class PlayerController implements Initializable{
@@ -30,33 +33,41 @@ public class PlayerController implements Initializable{
 	@FXML
 	ProgressBar fortschritt = new ProgressBar();
 	
-	private AudioPlayer ap;
+	@FXML
+	ListView<AudioFile> playlist = new ListView<>();
+	
+
+	private APlayer newAP = new APlayer();
 	
 	private long updatePrevTime = 0;
 	
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		
+		playlist.setItems(newAP.getObservableList());
 	
-		String pfad = "D:\\Multimedia\\Musik\\MP3\\Bonkers 18\\Bonkers 1\\01 - Darwin feat Fraz - We-re Getting Faster.mp3";
-		Media media = new Media(new File(pfad).toURI().toString());
+		String pfad = "01 - Darwin feat Fraz - We-re Getting Faster.mp3";
+
 		
-		ap = new AudioPlayer(media);
-		ap.addToPlaylist("D:\\Multimedia\\Musik\\MP3\\Bonkers 18\\Bonkers 1\\02 - Arkitech - When Tears Fall - Kaotik.mp3");
-		ap.addToPlaylist("D:\\Multimedia\\Musik\\MP3\\Bonkers 18\\Bonkers 1\\03 - Ham - Jump 2 Da Groove 2009.mp3");
-		ap.addToPlaylist("D:\\Multimedia\\Musik\\MP3\\Bonkers 18\\Bonkers 1\\04 - Sharkey, Odyssey & Arkitech - Black Rain.mp3");
+		File file = new File(pfad);
+		newAP.addToPlaylist(file);
+		newAP.addToPlaylist(new File("01 Tokyo Rush.mp3"));
+		
 		
 		play.setOnAction((ActionEvent e) -> {
-			ap.play();
+
+			newAP.play();
 		});
 		pauseButton.setOnAction((ActionEvent e)-> {
-			ap.pause();
+
+			newAP.pause();
 		});
 		stopButton.setOnAction((ActionEvent e) -> {
-			ap.stop();
+
+			newAP.stop();
 		});
 		nextButton.setOnAction((ActionEvent e)->{
-			ap.next();
+			newAP.next();
 		});
 		
 //		ap.setProgressBar(fortschritt);
